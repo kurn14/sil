@@ -13,9 +13,9 @@ class SiteConditionReportInfolist
         return $schema
             ->components([
                 TextEntry::make('site.name')
-                    ->label('Situs'),
+                    ->label(__('Heritage site')),
                 TextEntry::make('surveyor.name')
-                    ->label('Surveyor'),
+                    ->label(__('Surveyor')),
                 TextEntry::make('survey_date')
                     ->date(),
                 TextEntry::make('condition')
@@ -29,7 +29,7 @@ class SiteConditionReportInfolist
                 IconEntry::make('is_urgent')
                     ->boolean(),
                 TextEntry::make('responder.name')
-                    ->label('Direspon oleh')
+                    ->label(__('Responded by'))
                     ->placeholder('-'),
                 TextEntry::make('responded_at')
                     ->dateTime()

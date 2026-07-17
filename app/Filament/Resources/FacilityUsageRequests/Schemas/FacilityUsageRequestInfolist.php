@@ -13,9 +13,9 @@ class FacilityUsageRequestInfolist
             ->components([
                 TextEntry::make('request_number'),
                 TextEntry::make('user.name')
-                    ->label('Pemohon'),
+                    ->label(__('Applicant name')),
                 TextEntry::make('site.name')
-                    ->label('Situs'),
+                    ->label(__('Heritage site')),
                 TextEntry::make('applicant_name'),
                 TextEntry::make('identity_number'),
                 TextEntry::make('institution_name')
@@ -42,7 +42,7 @@ class FacilityUsageRequestInfolist
                 TextEntry::make('fee_amount')
                     ->money('IDR'),
                 TextEntry::make('reviewer.name')
-                    ->label('Ditinjau oleh')
+                    ->label(__('Reviewed by'))
                     ->placeholder('-'),
                 TextEntry::make('reviewed_at')
                     ->dateTime()

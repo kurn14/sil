@@ -19,10 +19,10 @@ class FacilityUsageRequestsTable
                 TextColumn::make('request_number')
                     ->searchable(),
                 TextColumn::make('user.name')
-                    ->label('Pemohon')
+                    ->label(__('Applicant name'))
                     ->searchable(),
                 TextColumn::make('site.name')
-                    ->label('Situs')
+                    ->label(__('Heritage site'))
                     ->searchable(),
                 TextColumn::make('activity_type')
                     ->searchable(),

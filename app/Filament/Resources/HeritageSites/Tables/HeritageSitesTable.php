@@ -20,7 +20,7 @@ class HeritageSitesTable
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('category.name')
-                    ->label('Kategori')
+                    ->label(__('Category name'))
                     ->sortable(),
                 TextColumn::make('status')
                     ->badge()

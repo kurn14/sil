@@ -43,7 +43,7 @@ class PhotosRelationManager extends RelationManager
         return $table
             ->columns([
                 ImageColumn::make('file_path')
-                    ->label('Foto'),
+                    ->label(__('Foto')),
                 TextColumn::make('caption')
                     ->searchable(),
                 TextColumn::make('created_at')

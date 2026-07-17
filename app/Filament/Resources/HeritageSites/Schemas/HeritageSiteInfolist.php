@@ -13,7 +13,7 @@ class HeritageSiteInfolist
         return $schema
             ->components([
                 TextEntry::make('category.name')
-                    ->label('Kategori'),
+                    ->label(__('Category name')),
                 TextEntry::make('name'),
                 TextEntry::make('slug'),
                 TextEntry::make('description')
@@ -35,7 +35,7 @@ class HeritageSiteInfolist
                 IconEntry::make('is_facility_available')
                     ->boolean(),
                 TextEntry::make('creator.name')
-                    ->label('Dibuat oleh'),
+                    ->label(__('Created by')),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

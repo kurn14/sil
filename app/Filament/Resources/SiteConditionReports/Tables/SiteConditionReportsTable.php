@@ -18,10 +18,10 @@ class SiteConditionReportsTable
         return $table
             ->columns([
                 TextColumn::make('site.name')
-                    ->label('Situs')
+                    ->label(__('Heritage site'))
                     ->searchable(),
                 TextColumn::make('surveyor.name')
-                    ->label('Surveyor')
+                    ->label(__('Surveyor'))
                     ->searchable(),
                 TextColumn::make('survey_date')
                     ->date()
@@ -32,7 +32,7 @@ class SiteConditionReportsTable
                 IconColumn::make('is_urgent')
                     ->boolean(),
                 TextColumn::make('responder.name')
-                    ->label('Direspon oleh')
+                    ->label(__('Responded by'))
                     ->placeholder('-'),
                 TextColumn::make('created_at')
                     ->dateTime()
