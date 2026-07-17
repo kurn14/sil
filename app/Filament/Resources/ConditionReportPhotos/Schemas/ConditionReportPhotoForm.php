@@ -19,6 +19,7 @@ class ConditionReportPhotoForm
                 FileUpload::make('file_path')
                     ->image()
                     ->directory('condition-report-photos')
+                    ->imageEditor()
                     ->required(),
                 TextInput::make('caption'),
             ]);
