@@ -44,7 +44,7 @@ class HeritageSiteResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\PhotosRelationManager::class,
         ];
     }
 
