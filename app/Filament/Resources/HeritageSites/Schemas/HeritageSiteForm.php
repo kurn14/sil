@@ -32,10 +32,6 @@ class HeritageSiteForm
                 TextInput::make('longitude')
                     ->required()
                     ->numeric(),
-                TextInput::make('admission_fee')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
                 TextInput::make('registration_number')
                     ->required(),
                 TextInput::make('designation_year')

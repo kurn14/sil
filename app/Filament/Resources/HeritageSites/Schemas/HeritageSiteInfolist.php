@@ -26,9 +26,6 @@ class HeritageSiteInfolist
                     ->placeholder('-'),
                 TextEntry::make('longitude')
                     ->placeholder('-'),
-                TextEntry::make('admission_fee')
-                    ->money('IDR')
-                    ->placeholder('-'),
                 TextEntry::make('registration_number')
                     ->placeholder('-'),
                 TextEntry::make('designation_year')

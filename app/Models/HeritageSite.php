@@ -20,7 +20,6 @@ class HeritageSite extends Model
         'latitude',
         'longitude',
         'operating_hours',
-        'admission_fee',
         'registration_number',
         'designation_year',
         'status',
@@ -34,7 +33,6 @@ class HeritageSite extends Model
             'latitude' => 'decimal:7',
             'longitude' => 'decimal:7',
             'operating_hours' => 'array',
-            'admission_fee' => 'integer',
             'is_facility_available' => 'boolean',
         ];
     }

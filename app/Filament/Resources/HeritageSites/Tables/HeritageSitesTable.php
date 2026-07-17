@@ -25,9 +25,6 @@ class HeritageSitesTable
                 TextColumn::make('status')
                     ->badge()
                     ->searchable(),
-                TextColumn::make('admission_fee')
-                    ->money('IDR')
-                    ->sortable(),
                 IconColumn::make('is_facility_available')
                     ->boolean(),
                 TextColumn::make('created_at')
