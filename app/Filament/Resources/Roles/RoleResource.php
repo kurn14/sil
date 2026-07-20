@@ -68,6 +68,13 @@ class RoleResource extends Resource
                     ->separator(',')
                     ->limitList(3)
                     ->expandableLimitedList(),
+                Tables\Columns\TextColumn::make('users.name')
+                    ->label(__('Pengguna'))
+                    ->badge()
+                    ->color('success')
+                    ->separator(',')
+                    ->limitList(3)
+                    ->expandableLimitedList(),
                 Tables\Columns\TextColumn::make('guard_name')
                     ->label(__('Guard'))
                     ->searchable()
