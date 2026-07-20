@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\HeritageSites\RelationManagers;
 
+use App\Models\SitePhoto;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
@@ -18,16 +19,12 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use LaraZeus\SpatieTranslatable\Resources\RelationManagers\Concerns\Translatable;
-use LaraZeus\SpatieTranslatable\Tables\Actions\LocaleSwitcher;
+use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
 
 class PhotosRelationManager extends RelationManager
 {
-    use Translatable;
-
     protected static string $relationship = 'photos';
-
-    protected static ?string $recordTitleAttribute = 'caption';
 
     public function form(Schema $schema): Schema
     {
@@ -38,9 +35,22 @@ class PhotosRelationManager extends RelationManager
                     ->image()
                     ->directory('site-photos')
                     ->imageEditor()
-                    ->required(),
-                TextInput::make('caption')
-                    ->label(__('Caption')),
+                    ->required()
+                    ->columnSpanFull(),
+                \Filament\Schemas\Components\Tabs::make('Translations')
+                    ->tabs([
+                        \Filament\Schemas\Components\Tabs\Tab::make('ID')
+                            ->schema([
+                                TextInput::make('caption.id')
+                                    ->label(__('Caption (ID)')),
+                            ]),
+                        \Filament\Schemas\Components\Tabs\Tab::make('EN')
+                            ->schema([
+                                TextInput::make('caption.en')
+                                    ->label(__('Caption (EN)')),
+                            ]),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -52,7 +62,9 @@ class PhotosRelationManager extends RelationManager
                     ->label(__('Photo')),
                 TextColumn::make('caption')
                     ->label(__('Caption'))
-                    ->searchable(),
+                    ->searchable(query: function (\Illuminate\Database\Eloquent\Builder $query, string $search) {
+                        return $query->whereRaw("caption->>'" . app()->getLocale() . "' ilike ?", ["%{$search}%"]);
+                    }),
                 TextColumn::make('created_at')
                     ->label(__('Created at'))
                     ->dateTime()
@@ -68,12 +80,19 @@ class PhotosRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                LocaleSwitcher::make(),
                 CreateAction::make(),
             ])
             ->actions([
-                ViewAction::make(),
-                EditAction::make(),
+                ViewAction::make()
+                    ->mutateRecordDataUsing(function (array $data, \Illuminate\Database\Eloquent\Model $record): array {
+                        $data['caption'] = $record->getTranslations('caption');
+                        return $data;
+                    }),
+                EditAction::make()
+                    ->mutateRecordDataUsing(function (array $data, \Illuminate\Database\Eloquent\Model $record): array {
+                        $data['caption'] = $record->getTranslations('caption');
+                        return $data;
+                    }),
                 DeleteAction::make(),
             ])
             ->bulkActions([
@@ -83,3 +102,4 @@ class PhotosRelationManager extends RelationManager
             ]);
     }
 }
+
