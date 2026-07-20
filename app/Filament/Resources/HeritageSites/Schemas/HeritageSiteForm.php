@@ -17,7 +17,7 @@ class HeritageSiteForm
             ->components([
                 Select::make('site_category_id')
                     ->label(__('Category name'))
-                    ->relationship('category', 'name')
+                    ->relationship('category', 'name', fn ($query) => $query->reorder()->orderByRaw("name->>'" . app()->getLocale() . "' ASC"))
                     ->required(),
                 TextInput::make('name')
                     ->label(__('Name'))

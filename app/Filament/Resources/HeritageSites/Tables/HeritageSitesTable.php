@@ -22,7 +22,13 @@ class HeritageSitesTable
                     ->searchable(),
                 TextColumn::make('category.name')
                     ->label(__('Category name'))
-                    ->sortable(),
+                    ->sortable(query: function (\Illuminate\Database\Eloquent\Builder $query, string $direction) {
+                        return $query->orderBy(
+                            \App\Models\SiteCategory::selectRaw("name->>'" . app()->getLocale() . "'")
+                                ->whereColumn('site_categories.id', 'heritage_sites.site_category_id'),
+                            $direction
+                        );
+                    }),
                 TextColumn::make('status')
                     ->label(__('Status'))
                     ->badge()

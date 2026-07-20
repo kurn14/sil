@@ -19,7 +19,11 @@ class SiteConditionReportsTable
             ->columns([
                 TextColumn::make('site.name')
                     ->label(__('Heritage site'))
-                    ->searchable(),
+                    ->searchable(query: function (\Illuminate\Database\Eloquent\Builder $query, string $search) {
+                        return $query->whereHas('site', function ($q) use ($search) {
+                            $q->whereRaw("name->>'" . app()->getLocale() . "' ilike ?", ["%{$search}%"]);
+                        });
+                    }),
                 TextColumn::make('surveyor.name')
                     ->label(__('Surveyor'))
                     ->searchable(),

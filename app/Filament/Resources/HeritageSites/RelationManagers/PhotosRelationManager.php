@@ -18,9 +18,13 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use LaraZeus\SpatieTranslatable\Resources\RelationManagers\Concerns\Translatable;
+use LaraZeus\SpatieTranslatable\Tables\Actions\LocaleSwitcher;
 
 class PhotosRelationManager extends RelationManager
 {
+    use Translatable;
+
     protected static string $relationship = 'photos';
 
     protected static ?string $recordTitleAttribute = 'caption';
@@ -64,6 +68,7 @@ class PhotosRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
+                LocaleSwitcher::make(),
                 CreateAction::make(),
             ])
             ->actions([

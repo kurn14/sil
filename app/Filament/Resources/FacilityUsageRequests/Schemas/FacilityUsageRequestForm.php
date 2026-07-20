@@ -24,7 +24,7 @@ class FacilityUsageRequestForm
                     ->required(),
                 Select::make('heritage_site_id')
                     ->label(__('Heritage site'))
-                    ->relationship('site', 'name')
+                    ->relationship('site', 'name', fn ($query) => $query->reorder()->orderByRaw("name->>'" . app()->getLocale() . "' ASC"))
                     ->required(),
                 TextInput::make('applicant_name')
                     ->label(__('Applicant name'))
