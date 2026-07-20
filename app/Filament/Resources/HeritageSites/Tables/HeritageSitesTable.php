@@ -18,20 +18,25 @@ class HeritageSitesTable
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('Name'))
                     ->searchable(),
                 TextColumn::make('category.name')
                     ->label(__('Category name'))
                     ->sortable(),
                 TextColumn::make('status')
+                    ->label(__('Status'))
                     ->badge()
                     ->searchable(),
                 IconColumn::make('is_facility_available')
+                    ->label(__('Is facility available'))
                     ->boolean(),
                 TextColumn::make('created_at')
+                    ->label(__('Created at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('Updated at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

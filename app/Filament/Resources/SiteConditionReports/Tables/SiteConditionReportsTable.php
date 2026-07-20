@@ -24,21 +24,26 @@ class SiteConditionReportsTable
                     ->label(__('Surveyor'))
                     ->searchable(),
                 TextColumn::make('survey_date')
+                    ->label(__('Survey date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('condition')
+                    ->label(__('Condition'))
                     ->badge()
                     ->searchable(),
                 IconColumn::make('is_urgent')
+                    ->label(__('Is urgent'))
                     ->boolean(),
                 TextColumn::make('responder.name')
                     ->label(__('Responded by'))
                     ->placeholder('-'),
                 TextColumn::make('created_at')
+                    ->label(__('Created at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('Updated at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

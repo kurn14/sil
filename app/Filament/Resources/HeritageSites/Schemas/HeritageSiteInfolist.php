@@ -14,32 +14,44 @@ class HeritageSiteInfolist
             ->components([
                 TextEntry::make('category.name')
                     ->label(__('Category name')),
-                TextEntry::make('name'),
-                TextEntry::make('slug'),
+                TextEntry::make('name')
+                    ->label(__('Name')),
+                TextEntry::make('slug')
+                    ->label(__('Slug')),
                 TextEntry::make('description')
+                    ->label(__('Description'))
                     ->placeholder('-')
                     ->columnSpanFull(),
                 TextEntry::make('address')
+                    ->label(__('Address'))
                     ->placeholder('-')
                     ->columnSpanFull(),
                 TextEntry::make('latitude')
+                    ->label(__('Latitude'))
                     ->placeholder('-'),
                 TextEntry::make('longitude')
+                    ->label(__('Longitude'))
                     ->placeholder('-'),
                 TextEntry::make('registration_number')
+                    ->label(__('Registration number'))
                     ->placeholder('-'),
                 TextEntry::make('designation_year')
+                    ->label(__('Designation year'))
                     ->placeholder('-'),
                 TextEntry::make('status')
+                    ->label(__('Status'))
                     ->badge(),
                 IconEntry::make('is_facility_available')
+                    ->label(__('Is facility available'))
                     ->boolean(),
                 TextEntry::make('creator.name')
                     ->label(__('Created by')),
                 TextEntry::make('created_at')
+                    ->label(__('Created at'))
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
+                    ->label(__('Updated at'))
                     ->dateTime()
                     ->placeholder('-'),
             ]);
