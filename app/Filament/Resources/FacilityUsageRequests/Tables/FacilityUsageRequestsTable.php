@@ -17,6 +17,7 @@ class FacilityUsageRequestsTable
         return $table
             ->columns([
                 TextColumn::make('request_number')
+                    ->label(__('Request number'))
                     ->searchable(),
                 TextColumn::make('user.name')
                     ->label(__('Applicant name'))
@@ -25,24 +26,31 @@ class FacilityUsageRequestsTable
                     ->label(__('Heritage site'))
                     ->searchable(),
                 TextColumn::make('activity_type')
+                    ->label(__('Activity type'))
                     ->searchable(),
                 TextColumn::make('start_date')
+                    ->label(__('Start date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('end_date')
+                    ->label(__('End date'))
                     ->date()
                     ->sortable(),
                 TextColumn::make('status')
+                    ->label(__('Status'))
                     ->badge()
                     ->searchable(),
                 TextColumn::make('fee_amount')
+                    ->label(__('Fee amount'))
                     ->money('IDR')
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label(__('Created at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('Updated at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
