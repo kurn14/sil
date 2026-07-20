@@ -7,9 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use Spatie\Translatable\HasTranslations;
+
 class HeritageSite extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasTranslations;
+
+    public $translatable = ['name', 'description', 'address'];
 
     protected $fillable = [
         'site_category_id',
