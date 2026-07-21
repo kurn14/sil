@@ -4,7 +4,7 @@ namespace App\Filament\Resources\Permissions;
 
 use App\Filament\Resources\Permissions\Pages;
 use App\Filament\Resources\Permissions\RelationManagers;
-use Spatie\Permission\Models\Permission;
+use App\Models\Permission;
 use App\Enums\PermissionType;
 use Filament\Forms;
 use Filament\Forms\Form;

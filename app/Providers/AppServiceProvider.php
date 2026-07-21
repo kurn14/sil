@@ -22,6 +22,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register policies for Spatie Permission models (outside App\Models namespace)
+        // \Illuminate\Support\Facades\Gate::policy(
+        //     \Spatie\Permission\Models\Role::class,
+        //     \App\Policies\RolePolicy::class
+        // );
+        // \Illuminate\Support\Facades\Gate::policy(
+        //     \Spatie\Permission\Models\Permission::class,
+        //     \App\Policies\PermissionPolicy::class
+        // );
+
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch->locales(['en', 'id']);
             // ->displayMode(DisplayMode::Modal);
