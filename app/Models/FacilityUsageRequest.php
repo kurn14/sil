@@ -12,7 +12,7 @@ class FacilityUsageRequest extends Model
 
     protected $fillable = [
         'request_number',
-        'user_id',
+        'applicant_id',
         'heritage_site_id',
         'applicant_name',
         'identity_number',
@@ -44,9 +44,9 @@ class FacilityUsageRequest extends Model
         ];
     }
 
-    public function user(): BelongsTo
+    public function applicant(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Applicant::class, 'applicant_id');
     }
 
     public function site(): BelongsTo
