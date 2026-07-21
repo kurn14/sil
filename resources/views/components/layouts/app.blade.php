@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>{{ $title ?? 'Sistem Informasi Layanan BPK Wilayah DIY' }}</title>
+        <title>{{ $title ??  __('Service Information System of BPK Region DIY') }}</title>
 
         <!-- Google Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,10 +35,10 @@
                         <!-- Navigation Links -->
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <a href="/" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out {{ request()->is('/') ? '!border-primary-500 !text-gray-900' : '' }}">
-                                {{ __('Beranda') }}
+                                {{ __('Home') }}
                             </a>
                             <a href="/heritage-sites" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out {{ request()->is('heritage-sites*') ? '!border-primary-500 !text-gray-900' : '' }}">
-                                {{ __('Katalog Situs') }}
+                                {{ __('Cultural Heritage Site Catalog') }}
                             </a>
                         </div>
                     </div>
@@ -58,11 +58,11 @@
                         </div>
 
                         @auth('applicant')
-                            <a href="/applicant" class="text-sm text-gray-700 hover:text-gray-900 font-medium">Panel Pemohon</a>
+                            <a href="/applicant" class="text-sm text-gray-700 hover:text-gray-900 font-medium">{{ __('Applicant Panel') }}</a>
                         @else
-                            <a href="/applicant/login" class="text-sm text-gray-700 hover:text-gray-900 font-medium">Login Pemohon</a>
+                            <a href="/applicant/login" class="text-sm text-gray-700 hover:text-gray-900 font-medium">{{ __('Applicant Login') }}</a>
                         @endauth
-                        <a href="/admin" class="text-sm bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 transition font-medium">Admin</a>
+                        <a href="/admin" class="text-sm bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 transition font-medium">{{ __('Admin') }}</a>
                     </div>
                 </div>
             </div>
@@ -82,20 +82,19 @@
                         <span class="font-bold text-xl tracking-tight">BPK <span class="text-primary-400">DIY</span></span>
                     </div>
                     <p class="text-gray-400 text-sm">
-                        Balai Pelestarian Kebudayaan Wilayah X<br>
-                        Daerah Istimewa Yogyakarta dan Jawa Tengah
+                        {!! __('Cultural Preservation Center Region X<br>Special Region of Yogyakarta and Central Java') !!}
                     </p>
                 </div>
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Tautan Cepat</h3>
+                    <h3 class="text-lg font-semibold mb-4">{{ __('Quick Links') }}</h3>
                     <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="/" class="hover:text-white transition">Beranda</a></li>
-                        <li><a href="/heritage-sites" class="hover:text-white transition">Katalog Situs Cagar Budaya</a></li>
-                        <li><a href="/applicant" class="hover:text-white transition">Penggunaan Fasilitas</a></li>
+                        <li><a href="/" class="hover:text-white transition">{{ __('Home') }}</a></li>
+                        <li><a href="/heritage-sites" class="hover:text-white transition">{{ __('Cultural Heritage Site Catalog') }}</a></li>
+                        <li><a href="/applicant" class="hover:text-white transition">{{ __('Facility Usage') }}</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Kontak</h3>
+                    <h3 class="text-lg font-semibold mb-4">{{ __('Contact') }}</h3>
                     <ul class="space-y-2 text-sm text-gray-400">
                         <li>Jl. Ndalem Jayadipuran No. 13, Yogyakarta</li>
                         <li>Telp: (0274) 373682</li>
@@ -104,13 +103,82 @@
                 </div>
             </div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-gray-800 text-sm text-center text-gray-500">
-                &copy; {{ date('Y') }} Balai Pelestarian Kebudayaan Wilayah X. Hak Cipta Dilindungi.
+                &copy; {{ date('Y') }} {{ __('Cultural Preservation Center Region X. All Rights Reserved.') }}
             </div>
         </footer>
 
         <!-- Leaflet JS -->
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
         
+        <script>
+            if (typeof window.initLeafletMap === 'undefined') {
+                window.initLeafletMap = function(mapId, interactive, center, zoom, sites, viewDetailText, otherText) {
+                    // Check if map is already initialized on this container to prevent errors
+                    const container = L.DomUtil.get(mapId);
+                    if (container != null && container._leaflet_id !== null) {
+                        return;
+                    }
+
+                    const map = L.map(mapId, {
+                        zoomControl: interactive,
+                        dragging: interactive,
+                        scrollWheelZoom: interactive,
+                    }).setView([center.lat, center.lng], zoom);
+
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    }).addTo(map);
+
+                    const defaultIcon = L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    });
+
+                    const markers = [];
+
+                    sites.forEach(site => {
+                        if (site.latitude && site.longitude) {
+                            const category = site.category || otherText;
+                            const popupContent = `
+                                <div class="p-1 min-w-[200px]">
+                                    <span class="inline-block px-2 py-0.5 mb-2 text-[10px] font-bold uppercase tracking-wider text-primary-700 bg-primary-100 rounded-sm">
+                                        ${category}
+                                    </span>
+                                    <h4 class="font-bold text-gray-900 mb-1 leading-tight">${site.name}</h4>
+                                    <p class="text-xs text-gray-500 mb-3 line-clamp-2">${site.address}</p>
+                                    <a href="${site.url}" class="inline-flex w-full justify-center items-center px-3 py-1.5 text-xs font-semibold text-white bg-primary-600 rounded hover:bg-primary-500 transition">
+                                        ${viewDetailText}
+                                    </a>
+                                </div>
+                            `;
+
+                            const marker = L.marker([site.latitude, site.longitude], { icon: defaultIcon })
+                                .bindPopup(popupContent)
+                                .addTo(map);
+                                
+                            markers.push(marker);
+                        }
+                    });
+
+                    if (markers.length > 1) {
+                        const group = new L.featureGroup(markers);
+                        map.fitBounds(group.getBounds(), { padding: [50, 50] });
+                    } else if (markers.length === 1) {
+                        map.setView(markers[0].getLatLng(), 15);
+                    }
+                    
+                    // Fix map size after rendering if inside a tab or conditional block
+                    setTimeout(() => { map.invalidateSize(); }, 300);
+                };
+            }
+        </script>
+
         @livewireScripts
         @stack('scripts')
     </body>

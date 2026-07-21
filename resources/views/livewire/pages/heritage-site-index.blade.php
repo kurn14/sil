@@ -1,7 +1,7 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Katalog Situs Cagar Budaya</h1>
-        <p class="mt-2 text-lg text-gray-600">Jelajahi berbagai cagar budaya yang tersebar di wilayah D.I. Yogyakarta.</p>
+        <h1 class="text-3xl font-bold text-gray-900 tracking-tight">{{ __('Cultural Heritage Site Catalog') }}</h1>
+        <p class="mt-2 text-lg text-gray-600">{{ __('Explore various cultural heritage scattered across the D.I. Yogyakarta region.') }}</p>
     </div>
 
     <!-- Filters and Controls -->
@@ -12,12 +12,12 @@
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                     <x-heroicon-m-magnifying-glass class="h-5 w-5 text-gray-400" />
                 </div>
-                <input wire:model.live.debounce.300ms="search" type="text" class="block w-full rounded-md border-0 py-2 pl-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6" placeholder="Cari nama atau lokasi...">
+                <input wire:model.live.debounce.300ms="search" type="text" class="block w-full rounded-md border-0 py-2 pl-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6" placeholder="{{ __('Search name or location...') }}">
             </div>
 
             <!-- Category Filter -->
             <select wire:model.live="categoryId" class="block w-full sm:max-w-xs rounded-md border-0 py-2 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6">
-                <option value="">Semua Kategori</option>
+                <option value="">{{ __('All Categories') }}</option>
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
@@ -25,10 +25,10 @@
 
             <!-- Status Filter -->
             <select wire:model.live="status" class="block w-full sm:max-w-xs rounded-md border-0 py-2 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6">
-                <option value="">Semua Status</option>
-                <option value="active">Aktif Dikunjungi</option>
-                <option value="under_renovation">Dalam Renovasi</option>
-                <option value="temporarily_closed">Tutup Sementara</option>
+                <option value="">{{ __('All Statuses') }}</option>
+                <option value="active">{{ __('Actively Visited') }}</option>
+                <option value="under_renovation">{{ __('Under Renovation') }}</option>
+                <option value="temporarily_closed">{{ __('Temporarily Closed') }}</option>
             </select>
         </div>
 
@@ -36,11 +36,11 @@
         <div class="flex items-center rounded-md shadow-sm ring-1 ring-inset ring-gray-300 shrink-0 w-full sm:w-auto">
             <button wire:click="$set('viewMode', 'grid')" type="button" class="relative inline-flex w-1/2 sm:w-auto justify-center items-center rounded-l-md px-3 py-2 text-sm font-semibold {{ $viewMode === 'grid' ? 'bg-primary-50 text-primary-600 z-10 ring-1 ring-inset ring-primary-600' : 'bg-white text-gray-900 hover:bg-gray-50' }}">
                 <x-heroicon-m-squares-2x2 class="h-5 w-5 mr-2" />
-                Grid
+                {{ __('Grid') }}
             </button>
             <button wire:click="$set('viewMode', 'map')" type="button" class="relative -ml-px inline-flex w-1/2 sm:w-auto justify-center items-center rounded-r-md px-3 py-2 text-sm font-semibold {{ $viewMode === 'map' ? 'bg-primary-50 text-primary-600 z-10 ring-1 ring-inset ring-primary-600' : 'bg-white text-gray-900 hover:bg-gray-50' }}">
                 <x-heroicon-m-map class="h-5 w-5 mr-2" />
-                Peta
+                {{ __('Map') }}
             </button>
         </div>
     </div>
@@ -55,19 +55,19 @@
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                Memuat data...
+                {{ __('Loading data...') }}
             </div>
         </div>
 
         @if($viewMode === 'grid')
-            <!-- Grid View -->
+            <!-- {{ __('Grid') }} View -->
             @if($sites->count() > 0)
                 <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                     @foreach ($sites as $site)
                         <a href="/heritage-sites/{{ $site->slug }}" class="group relative flex flex-col bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 overflow-hidden hover:shadow-lg transition duration-300 h-full">
                             <div class="aspect-[4/3] bg-gray-200 overflow-hidden relative">
                                 @if ($site->photos->count() > 0)
-                                    <img src="{{ Storage::url($site->photos->first()->image_path) }}" alt="{{ $site->name }}" class="h-full w-full object-cover object-center group-hover:scale-105 transition duration-500">
+                                    <img src="{{ Storage::url($site->photos->first()->file_path) }}" alt="{{ $site->name }}" class="h-full w-full object-cover object-center group-hover:scale-105 transition duration-500">
                                 @else
                                     <div class="h-full w-full flex items-center justify-center bg-gray-100 text-gray-400">
                                         <x-heroicon-o-photo class="w-12 h-12" />
@@ -76,7 +76,7 @@
                                 
                                 <div class="absolute top-4 left-4 flex flex-col gap-2">
                                     <span class="inline-flex items-center rounded-md bg-white/90 backdrop-blur px-2 py-1 text-xs font-medium text-gray-800 ring-1 ring-inset ring-gray-200 shadow-sm">
-                                        {{ $site->category?->name ?? 'Lainnya' }}
+                                        {{ $site->category?->name ?? __('Other') }}
                                     </span>
                                     
                                     @php
@@ -86,9 +86,9 @@
                                             'temporarily_closed' => 'bg-red-50 text-red-700 ring-red-600/10',
                                         ];
                                         $statusLabels = [
-                                            'active' => 'Aktif',
-                                            'under_renovation' => 'Renovasi',
-                                            'temporarily_closed' => 'Tutup',
+                                            'active' => __('Active'),
+                                            'under_renovation' => __('Renovation'),
+                                            'temporarily_closed' => __('Closed'),
                                         ];
                                         $colorClass = $statusColors[$site->status] ?? 'bg-gray-50 text-gray-700 ring-gray-600/20';
                                         $label = $statusLabels[$site->status] ?? ucfirst($site->status);
@@ -117,11 +117,11 @@
             @else
                 <div class="text-center py-24 bg-white rounded-2xl ring-1 ring-inset ring-gray-200">
                     <x-heroicon-o-magnifying-glass class="mx-auto h-12 w-12 text-gray-400" />
-                    <h3 class="mt-2 text-sm font-semibold text-gray-900">Tidak ada situs ditemukan</h3>
-                    <p class="mt-1 text-sm text-gray-500">Coba sesuaikan kata kunci atau filter pencarian Anda.</p>
+                    <h3 class="mt-2 text-sm font-semibold text-gray-900">{{ __('No sites found') }}</h3>
+                    <p class="mt-1 text-sm text-gray-500">{{ __('Try adjusting your search keywords or filters.') }}</p>
                     <div class="mt-6">
                         <button wire:click="$set('search', ''); $set('categoryId', ''); $set('status', '')" type="button" class="inline-flex items-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500">
-                            Reset Filter
+                            {{ __('Reset Filter') }}
                         </button>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
             <div class="bg-gray-100 rounded-2xl overflow-hidden shadow-inner ring-1 ring-inset ring-gray-200 w-full relative">
                 <x-leaflet-map :sites="$allSites" height="600px" :interactive="true" />
             </div>
-            <p class="text-sm text-gray-500 mt-3 text-center">Ditemukan {{ $allSites->count() }} lokasi cagar budaya berdasarkan filter saat ini.</p>
+            <p class="text-sm text-gray-500 mt-3 text-center">{{ __('Found :count cultural heritage locations based on the current filters.', ['count' => $allSites->count()]) }}</p>
         @endif
     </div>
 </div>

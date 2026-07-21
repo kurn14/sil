@@ -2,23 +2,24 @@
 
 namespace App\Policies;
 
+use App\Models\Applicant;
 use App\Models\FacilityUsageRequest;
 use App\Models\User;
 use App\Enums\PermissionType;
 
 class FacilityUsageRequestPolicy
 {
-    public function viewAny(User $user): bool
+    public function viewAny(User|Applicant $user): bool
     {
         return $user->can(PermissionType::MANAGE_FACILITY_USAGE_REQUESTS->value);
     }
 
-    public function create(User $user): bool
+    public function create(User|Applicant $user): bool
     {
         return $user->can(PermissionType::MANAGE_FACILITY_USAGE_REQUESTS->value);
     }
 
-    public function view(User $user, FacilityUsageRequest $facilityUsageRequest): bool
+    public function view(User|Applicant $user, FacilityUsageRequest $facilityUsageRequest): bool
     {
         if ($user->hasRole('super_admin') || $user->hasRole('pengelola_situs') || $user->hasRole('pimpinan')) {
             return true;
@@ -26,7 +27,7 @@ class FacilityUsageRequestPolicy
         return $user->id === $facilityUsageRequest->user_id;
     }
 
-    public function update(User $user, FacilityUsageRequest $facilityUsageRequest): bool
+    public function update(User|Applicant $user, FacilityUsageRequest $facilityUsageRequest): bool
     {
         if ($user->hasRole('super_admin') || $user->hasRole('pengelola_situs')) {
             return true;
@@ -37,7 +38,7 @@ class FacilityUsageRequestPolicy
         return false;
     }
 
-    public function delete(User $user, FacilityUsageRequest $facilityUsageRequest): bool
+    public function delete(User|Applicant $user, FacilityUsageRequest $facilityUsageRequest): bool
     {
         if ($user->hasRole('super_admin') || $user->hasRole('pengelola_situs')) {
             return true;

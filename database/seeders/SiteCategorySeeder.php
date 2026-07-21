@@ -31,7 +31,25 @@ class SiteCategorySeeder extends Seeder
             ],
         ];
 
+        // Create icons directory if it doesn't exist
+        if (!\Illuminate\Support\Facades\Storage::disk('public')->exists('icons')) {
+            \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory('icons');
+        }
+
         foreach ($categories as $category) {
+            $iconPath = 'icons/' . $category['icon'];
+            if (!\Illuminate\Support\Facades\Storage::disk('public')->exists($iconPath)) {
+                try {
+                    $imageContent = file_get_contents('https://picsum.photos/100/100');
+                    if ($imageContent) {
+                        \Illuminate\Support\Facades\Storage::disk('public')->put($iconPath, $imageContent);
+                    }
+                } catch (\Exception $e) {
+                    // Fail silently
+                }
+            }
+            $category['icon'] = $iconPath;
+
             SiteCategory::updateOrCreate(
                 ['slug' => $category['slug']],
                 $category
