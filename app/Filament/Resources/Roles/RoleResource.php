@@ -51,6 +51,12 @@ class RoleResource extends Resource
                     ->columns(2)
                     ->gridDirection('row')
                     ->bulkToggleable(),
+                Forms\Components\Select::make('users')
+                    ->label(__('Pengguna (Users)'))
+                    ->relationship('users', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->searchable(),
             ]);
     }
 
