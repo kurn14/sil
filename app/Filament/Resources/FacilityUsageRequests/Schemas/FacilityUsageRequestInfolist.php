@@ -13,12 +13,10 @@ class FacilityUsageRequestInfolist
             ->components([
                 TextEntry::make('request_number')
                     ->label(__('Request number')),
-                TextEntry::make('user.name')
-                    ->label(__('Applicant name')),
+                TextEntry::make('applicant.name')
+                    ->label(__('Applicant account')),
                 TextEntry::make('site.name')
                     ->label(__('Heritage site')),
-                TextEntry::make('applicant_name')
-                    ->label(__('Applicant name')),
                 TextEntry::make('identity_number')
                     ->label(__('Identity number')),
                 TextEntry::make('institution_name')

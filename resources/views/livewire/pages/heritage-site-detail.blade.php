@@ -172,8 +172,8 @@
                     <div class="p-6 bg-primary-50 border-t border-primary-100">
                         <h4 class="font-bold text-primary-900 mb-2">{{ __('Use This Site\'s Facilities') }}</h4>
                         <p class="text-sm text-primary-700 mb-4">{{ __('You can submit an application for cultural activities, research, or documentation.') }}</p>
-                        <a href="/applicant/facility-usage-requests/create?site={{ $site->id }}" class="flex justify-center items-center gap-2 w-full rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 transition">
-                            <x-heroicon-s-document-text class="w-4 h-4" />
+                        <a href="/applicant/facility-usage-requests/create?site={{ $site->id }}" class="flex justify-center items-center gap-2 w-full rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-3.5 text-base font-bold text-white shadow-lg hover:shadow-xl hover:from-primary-500 hover:to-primary-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 transform hover:-translate-y-0.5 transition-all duration-200">
+                            <x-heroicon-s-document-text class="w-5 h-5 animate-pulse" />
                             {{ __('Submit Application') }}
                         </a>
                     </div>

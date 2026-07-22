@@ -12,9 +12,8 @@ class FacilityUsageRequestSeeder extends Seeder
         $requests = [
             [
                 'request_number' => 'REQ-202607-001',
-                'user_id' => 6, // Eko Visitor
+                'applicant_id' => 1, // Eko Applicant
                 'heritage_site_id' => 1, // Prambanan
-                'applicant_name' => 'Eko',
                 'identity_number' => '3471234567890001',
                 'institution_name' => 'Universitas Indonesia',
                 'activity_type' => 'Penelitian Akademik',

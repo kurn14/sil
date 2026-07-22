@@ -18,16 +18,13 @@ class FacilityUsageRequestForm
                 TextInput::make('request_number')
                     ->label(__('Request number'))
                     ->required(),
-                Select::make('user_id')
-                    ->label(__('User'))
-                    ->relationship('user', 'name')
+                Select::make('applicant_id')
+                    ->label(__('Applicant account'))
+                    ->relationship('applicant', 'name')
                     ->required(),
                 Select::make('heritage_site_id')
                     ->label(__('Heritage site'))
                     ->relationship('site', 'name', fn ($query) => $query->reorder()->orderByRaw("name->>'" . app()->getLocale() . "' ASC"))
-                    ->required(),
-                TextInput::make('applicant_name')
-                    ->label(__('Applicant name'))
                     ->required(),
                 TextInput::make('identity_number')
                     ->label(__('Identity number'))

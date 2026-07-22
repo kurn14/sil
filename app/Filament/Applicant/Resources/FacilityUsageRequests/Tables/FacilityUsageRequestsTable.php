@@ -50,7 +50,7 @@ class FacilityUsageRequestsTable
                 //
             ])
             ->recordActions([
-                \Filament\Tables\Actions\ViewAction::make(),
+                \Filament\Actions\ViewAction::make(),
             ])
             ->toolbarActions([
                 //

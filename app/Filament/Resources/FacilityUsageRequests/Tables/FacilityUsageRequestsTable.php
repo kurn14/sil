@@ -19,7 +19,7 @@ class FacilityUsageRequestsTable
                 TextColumn::make('request_number')
                     ->label(__('Request number'))
                     ->searchable(),
-                TextColumn::make('user.name')
+                TextColumn::make('applicant.name')
                     ->label(__('Applicant name'))
                     ->searchable(),
                 TextColumn::make('site.name')

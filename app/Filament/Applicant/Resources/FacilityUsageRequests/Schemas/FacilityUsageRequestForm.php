@@ -27,13 +27,10 @@ class FacilityUsageRequestForm
                     ->options(HeritageSite::where('is_facility_available', true)->where('status', 'active')->pluck('name', 'id'))
                     ->default(request()->query('site'))
                     ->required(),
-                TextInput::make('applicant_name')
-                    ->label(__('Applicant name'))
-                    ->default(fn () => auth()->user()->name)
-                    ->required(),
                 TextInput::make('identity_number')
                     ->label(__('Identity number (NIK)'))
-                    ->default(fn () => auth()->user()->nik)
+                    ->length(16)
+                    ->numeric()
                     ->required(),
                 TextInput::make('institution_name')
                     ->label(__('Institution name'))
@@ -60,6 +57,7 @@ class FacilityUsageRequestForm
                     ->label(__('Application letter'))
                     ->directory('application-letters')
                     ->acceptedFileTypes(['application/pdf'])
+                    ->required()
                     ->maxSize(5120), // 5MB max
             ]);
     }

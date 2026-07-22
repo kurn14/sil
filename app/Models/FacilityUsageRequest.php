@@ -14,7 +14,6 @@ class FacilityUsageRequest extends Model
         'request_number',
         'applicant_id',
         'heritage_site_id',
-        'applicant_name',
         'identity_number',
         'institution_name',
         'activity_type',
