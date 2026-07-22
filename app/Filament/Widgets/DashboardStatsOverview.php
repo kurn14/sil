@@ -10,6 +10,7 @@ use App\Models\SiteConditionReport;
 
 class DashboardStatsOverview extends StatsOverviewWidget
 {
+    protected static ?int $sort = 1;
     protected int | string | array $columnSpan = 'full';
 
     protected function getStats(): array
@@ -22,11 +23,13 @@ class DashboardStatsOverview extends StatsOverviewWidget
             Stat::make(__('Total Permohonan Fasilitas'), FacilityUsageRequest::count())
                 ->description(__('Jumlah seluruh pengajuan penggunaan fasilitas'))
                 ->descriptionIcon('heroicon-m-clipboard-document-list')
-                ->color('success'),
+                ->color('success')
+                ->url(\App\Filament\Pages\FacilityUsageRequestOverview::getUrl()),
             Stat::make(__('Total Laporan Kondisi'), SiteConditionReport::count())
                 ->description(__('Jumlah seluruh laporan kondisi situs'))
                 ->descriptionIcon('heroicon-m-clipboard-document-check')
-                ->color('warning'),
+                ->color('warning')
+                ->url(\App\Filament\Pages\SiteConditionReportOverview::getUrl())
         ];
     }
 }
