@@ -3,7 +3,7 @@
     <div class="relative bg-gray-900 overflow-hidden">
         <div class="absolute inset-0">
             <!-- You can replace this with a real image from storage later -->
-            <img src="https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&q=80&w=2000" alt="Prambanan" class="w-full h-full object-cover opacity-30">
+            <img src="{{ asset('images/hero-borobudur.jpeg') }}" alt="Borobudur" class="w-full h-full object-cover opacity-30">
             <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
         </div>
         
