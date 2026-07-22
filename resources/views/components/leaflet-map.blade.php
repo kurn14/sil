@@ -23,10 +23,15 @@
 @endphp
 
 <div 
-    x-data="{}"
-    x-init='window.initLeafletMap("{{ $mapId }}", {{ $interactive ? 'true' : 'false' }}, @js($center), {{ $zoom }}, @js($sitesData), "{{ __('View Detail') }}", "{{ __('Other') }}")'
     id="{{ $mapId }}" 
     style="height: {{ $height }}; width: 100%;" 
-    class="rounded-xl ring-1 ring-inset ring-gray-200 shadow-sm z-10" 
+    class="rounded-xl ring-1 ring-inset ring-gray-200 shadow-sm z-10 leaflet-map-container"
+    data-map-id="{{ $mapId }}"
+    data-interactive="{{ $interactive ? 'true' : 'false' }}"
+    data-center="{{ json_encode($center) }}"
+    data-zoom="{{ $zoom }}"
+    data-sites="{{ json_encode($sitesData) }}"
+    data-view-detail-text="{{ __('View Detail') }}"
+    data-other-text="{{ __('Other') }}"
     wire:ignore>
 </div>

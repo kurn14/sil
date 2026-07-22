@@ -111,72 +111,136 @@
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
         
         <script>
-            if (typeof window.initLeafletMap === 'undefined') {
-                window.initLeafletMap = function(mapId, interactive, center, zoom, sites, viewDetailText, otherText) {
-                    // Check if map is already initialized on this container to prevent errors
-                    const container = L.DomUtil.get(mapId);
-                    if (container != null && container._leaflet_id !== null) {
-                        return;
+            (function() {
+                function initMapFromElement(el) {
+                    try {
+                        const mapId = el.getAttribute('data-map-id');
+                        if (!mapId) return;
+
+                        // Check if map is already initialized on this container
+                        if (el._leaflet_id) return;
+
+                        const interactive = el.getAttribute('data-interactive') === 'true';
+                        const center = JSON.parse(el.getAttribute('data-center') || '{"lat":-7.7956,"lng":110.3695}');
+                        const zoom = parseInt(el.getAttribute('data-zoom') || '10', 10);
+                        const sites = JSON.parse(el.getAttribute('data-sites') || '[]');
+                        const viewDetailText = el.getAttribute('data-view-detail-text') || 'View Detail';
+                        const otherText = el.getAttribute('data-other-text') || 'Other';
+
+                        const map = L.map(mapId, {
+                            zoomControl: interactive,
+                            dragging: interactive,
+                            scrollWheelZoom: interactive,
+                        }).setView([center.lat, center.lng], zoom);
+
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            maxZoom: 19,
+                            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                        }).addTo(map);
+
+                        const defaultIcon = L.icon({
+                            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                            iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+                            shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                            iconSize: [25, 41],
+                            iconAnchor: [12, 41],
+                            popupAnchor: [1, -34],
+                            shadowSize: [41, 41]
+                        });
+
+                        const markers = [];
+
+                        sites.forEach(site => {
+                            if (site.latitude && site.longitude) {
+                                const category = site.category || otherText;
+                                const popupContent = `
+                                    <div class="p-1 min-w-[200px]">
+                                        <span class="inline-block px-2 py-0.5 mb-2 text-[10px] font-bold uppercase tracking-wider text-primary-700 bg-primary-100 rounded-sm">
+                                            ${category}
+                                        </span>
+                                        <h4 class="font-bold text-gray-900 mb-1 leading-tight">${site.name}</h4>
+                                        <p class="text-xs text-gray-500 mb-3 line-clamp-2">${site.address}</p>
+                                        <a href="${site.url}" class="inline-flex w-full justify-center items-center px-3 py-1.5 text-xs font-semibold text-white bg-primary-600 rounded hover:bg-primary-500 transition">
+                                            ${viewDetailText}
+                                        </a>
+                                    </div>
+                                `;
+
+                                const marker = L.marker([site.latitude, site.longitude], { icon: defaultIcon })
+                                    .bindPopup(popupContent)
+                                    .addTo(map);
+
+                                markers.push(marker);
+                            }
+                        });
+
+                        if (markers.length > 1) {
+                            const group = new L.featureGroup(markers);
+                            map.fitBounds(group.getBounds(), { padding: [50, 50] });
+                        } else if (markers.length === 1) {
+                            map.setView(markers[0].getLatLng(), 15);
+                        }
+
+                        // Fix map size after rendering — multiple attempts for dynamic containers
+                        setTimeout(() => { map.invalidateSize(); }, 100);
+                        setTimeout(() => { map.invalidateSize(); }, 500);
+                    } catch (e) {
+                        console.error('Leaflet init error:', e);
                     }
+                }
 
-                    const map = L.map(mapId, {
-                        zoomControl: interactive,
-                        dragging: interactive,
-                        scrollWheelZoom: interactive,
-                    }).setView([center.lat, center.lng], zoom);
-
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        maxZoom: 19,
-                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                    }).addTo(map);
-
-                    const defaultIcon = L.icon({
-                        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-                        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-                        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34],
-                        shadowSize: [41, 41]
-                    });
-
-                    const markers = [];
-
-                    sites.forEach(site => {
-                        if (site.latitude && site.longitude) {
-                            const category = site.category || otherText;
-                            const popupContent = `
-                                <div class="p-1 min-w-[200px]">
-                                    <span class="inline-block px-2 py-0.5 mb-2 text-[10px] font-bold uppercase tracking-wider text-primary-700 bg-primary-100 rounded-sm">
-                                        ${category}
-                                    </span>
-                                    <h4 class="font-bold text-gray-900 mb-1 leading-tight">${site.name}</h4>
-                                    <p class="text-xs text-gray-500 mb-3 line-clamp-2">${site.address}</p>
-                                    <a href="${site.url}" class="inline-flex w-full justify-center items-center px-3 py-1.5 text-xs font-semibold text-white bg-primary-600 rounded hover:bg-primary-500 transition">
-                                        ${viewDetailText}
-                                    </a>
-                                </div>
-                            `;
-
-                            const marker = L.marker([site.latitude, site.longitude], { icon: defaultIcon })
-                                .bindPopup(popupContent)
-                                .addTo(map);
-                                
-                            markers.push(marker);
+                function initAllMaps() {
+                    document.querySelectorAll('.leaflet-map-container').forEach(el => {
+                        if (!el._leaflet_id) {
+                            initMapFromElement(el);
                         }
                     });
+                }
 
-                    if (markers.length > 1) {
-                        const group = new L.featureGroup(markers);
-                        map.fitBounds(group.getBounds(), { padding: [50, 50] });
-                    } else if (markers.length === 1) {
-                        map.setView(markers[0].getLatLng(), 15);
+                // Initialize maps already on the page
+                document.addEventListener('DOMContentLoaded', initAllMaps);
+
+                // Watch for new map containers added dynamically (Livewire)
+                const observer = new MutationObserver(mutations => {
+                    for (const mutation of mutations) {
+                        for (const node of mutation.addedNodes) {
+                            if (node.nodeType !== 1) continue;
+                            if (node.classList && node.classList.contains('leaflet-map-container')) {
+                                initMapFromElement(node);
+                            }
+                            // Also check children
+                            if (node.querySelectorAll) {
+                                node.querySelectorAll('.leaflet-map-container').forEach(el => {
+                                    if (!el._leaflet_id) {
+                                        initMapFromElement(el);
+                                    }
+                                });
+                            }
+                        }
                     }
-                    
-                    // Fix map size after rendering if inside a tab or conditional block
-                    setTimeout(() => { map.invalidateSize(); }, 300);
-                };
-            }
+                });
+
+                observer.observe(document.body, { childList: true, subtree: true });
+
+                // Also hook into Livewire's morph lifecycle if available
+                if (typeof Livewire !== 'undefined') {
+                    document.addEventListener('livewire:navigated', initAllMaps);
+                }
+                document.addEventListener('livewire:init', () => {
+                    Livewire.hook('morph.added', ({ el }) => {
+                        if (el.classList && el.classList.contains('leaflet-map-container')) {
+                            setTimeout(() => initMapFromElement(el), 50);
+                        }
+                        if (el.querySelectorAll) {
+                            el.querySelectorAll('.leaflet-map-container').forEach(mapEl => {
+                                if (!mapEl._leaflet_id) {
+                                    setTimeout(() => initMapFromElement(mapEl), 50);
+                                }
+                            });
+                        }
+                    });
+                });
+            })();
         </script>
 
         @livewireScripts
